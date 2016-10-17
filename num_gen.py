@@ -12,9 +12,9 @@ def generate_number(ndigits=8):
     return ''.join([random.choice('0123456789') for _ in range(ndigits)])
 
 
-def add_number(number):
+def print_to_file(number):
     with open('numgen.dat', 'a') as f:
-        print(number, file=f)
+        [print(n, file=f, end='\n') for n in number]
 
 
 def check_and_add(num):
@@ -43,4 +43,4 @@ elif len(sys.argv) == 2:
         numb = generate_number()
         if check_and_add(numb):
             count += 1
-            add_number(numb)
+    print_to_file(newnumdb)
