@@ -17,30 +17,22 @@ def print_to_file(number):
         [print(n, file=f, end='\n') for n in number]
 
 
-def check_and_add(num):
-    global numdb, newnumdb
-    print('checking', num, end=': ')
-    if num in numdb + newnumdb:
-        print('number already exists, not added')
+def is_unique(number):
+    if number in numdb + newnumdb:
         return False
-    elif any(num.startswith(n) for n in numdb + newnumdb):
-        print('an existing number is a prefix, not added')
+    elif any(number.startswith(n) or n.startswith(number) for n in numdb + newnumdb):
         return False
-    elif any(n.startswith(num) for n in numdb + newnumdb):
-        print('this is a prefix for an existing number, not added')
-        return False
-    else:
-        print('New number added')
-        newnumdb.append(num)
-        return True
+    return True
 
 
 if len(sys.argv) != 2:
     sys.exit('Usage: num_gen.py [n]')
 elif len(sys.argv) == 2:
     count = 0
-    while count <= int(sys.argv[1]):
-        numb = generate_number()
-        if check_and_add(numb):
+    while count < int(sys.argv[1]):
+        number = generate_number()
+        if is_unique(number):
+            newnumdb.append(number)
             count += 1
+            print(number)
     print_to_file(newnumdb)
